@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "minimum_chrome_version": "111",
+  "name": "Accepted Solutions to GitHub",
+  "version": "1.0.0",
+  "description": "Save accepted GeeksforGeeks, LeetCode, and Codeforces submissions to your GitHub repositories.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://api.github.com/*",
+    "https://www.geeksforgeeks.org/*",
+    "https://leetcode.com/*",
+    "https://codeforces.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://www.geeksforgeeks.org/problems/*", "https://leetcode.com/problems/*", "https://codeforces.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.geeksforgeeks.org/problems/*", "https://leetcode.com/problems/*", "https://codeforces.com/*"],
+      "js": ["page-hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accepted Solutions to GitHub</title>
+  <style>
+    body { font: 15px/1.5 system-ui, sans-serif; max-width: 720px; margin: 36px auto; padding: 0 18px; color: #202124; }
+    h1 { font-size: 24px; }
+    label { display: block; margin: 16px 0 4px; font-weight: 600; }
+    input { box-sizing: border-box; width: 100%; padding: 9px 10px; font: inherit; }
+    button { margin-top: 20px; padding: 9px 16px; font: inherit; cursor: pointer; }
+    .note { background: #f3f6fa; border-radius: 8px; padding: 12px 14px; }
+    #status { margin-left: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Accepted Solutions to GitHub</h1>
+  <p class="note">The extension watches submissions in this browser and saves only accepted code. Your GitHub token is stored in this browser's extension storage and is sent only to GitHub's API.</p>
+  <label for="token">Fine-grained GitHub token</label>
+  <input id="token" type="password" autocomplete="off" placeholder="Paste your token here">
+  <label for="gfgRepo">GeeksforGeeks repository</label>
+  <input id="gfgRepo" value="Souvikjana572/GeeksForGeeks" spellcheck="false">
+  <label for="leetcodeRepo">LeetCode repository</label>
+  <input id="leetcodeRepo" value="Souvikjana572/Leetcode" spellcheck="false">
+  <label for="codeforcesRepo">Codeforces repository</label>
+  <input id="codeforcesRepo" value="Souvikjana572/CodeForce" spellcheck="false">
+  <button id="save">Save settings</button><span id="status" role="status"></span>
+  <p>For GeeksforGeeks and LeetCode, each accepted submission is saved in a folder named for the problem as <code>1.cpp</code>, <code>2.py</code>, and so on. Codeforces folders include the contest problem number and title.</p>
+  <script src="options.js"></script>
+</body>
+</html>

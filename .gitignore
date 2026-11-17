@@ -1,0 +1,14 @@
+# Local Chrome profile: contains logins, cookies, and extension settings/token
+chrome-profile/
+
+# Duplicate extracted copy and ZIP archive
+/Accepted-Solutions-to-GitHub/
+/Accepted-Solutions-to-GitHub.zip
+
+# Common OS files
+Thumbs.db
+.DS_Store
+
+# Local secrets
+.env
+.env.*
