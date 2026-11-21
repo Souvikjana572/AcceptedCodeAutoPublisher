@@ -105,7 +105,11 @@
       }
     });
     const observer = new MutationObserver(() => {
-      if (running || !/\/contest\/\d+\/problem\/|\/gym\/\d+\/problem\/|\/problemset\/problem\//.test(location.pathname)) return;
+      const path = location.pathname;
+      const supportedPage =
+        /\/(?:contest|gym)\/\d+\/(?:problem\/[^/]+|submit)\/?$/.test(path) ||
+        /\/problemset\/problem\/\d+\/[^/]+\/?$/.test(path);
+      if (running || !supportedPage) return;
       const form = [...document.forms].find(f => f.querySelector('textarea[name="source"]'));
       if (!form) return;
       const button = form.querySelector('input[type="submit"],button[type="submit"]');
@@ -117,11 +121,16 @@
         const start = Math.floor(Date.now() / 1000) - 1;
         const parts = location.pathname.match(/\/(contest|gym)\/(\d+)\/problem\/([^/]+)/);
         const problemset = location.pathname.match(/\/problemset\/problem\/(\d+)\/([^/]+)/);
+        const contestPage = location.pathname.match(/\/(contest|gym)\/(\d+)\/submit\/?$/);
+        const problemSelect = form.querySelector('select[name="submittedProblemIndex"]');
         const contestId = parts?.[2] || problemset?.[1];
-        const index = parts?.[3] || problemset?.[2];
-        if (!contestId || !index) return;
-        const problemName = clean(document.querySelector(".problem-statement .header .title")?.textContent) || clean(document.querySelector(".problem-statement .title")?.textContent) || `${contestId}${index}`;
-        const pending = { code, startedAt: start, contestId, index, problemName, url: location.href };
+        const index = parts?.[3] || problemset?.[2] || (contestPage ? problemSelect?.value : "");
+        const resolvedContestId = contestId || contestPage?.[2];
+        if (!resolvedContestId || !index) return;
+        const selectedProblemName = problemSelect?.selectedOptions?.[0]?.textContent
+          ?.replace(/^[A-Z0-9]+\s*[.)-]\s*/, "");
+        const problemName = clean(document.querySelector(".problem-statement .header .title")?.textContent) || clean(document.querySelector(".problem-statement .title")?.textContent) || clean(selectedProblemName) || `${resolvedContestId}${index}`;
+        const pending = { code, startedAt: start, contestId: resolvedContestId, index, problemName, url: location.href };
         emit({ type: "pending-codeforces", submission: pending });
         waitForAccepted(code, start, pending).catch(() => {}).finally(() => { running = false; });
       }, true);

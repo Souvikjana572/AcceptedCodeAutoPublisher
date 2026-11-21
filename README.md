@@ -6,7 +6,7 @@ The extension runs locally in your browser. It does not use a remote server or s
 
 ## What it does
 
-- Detects accepted submissions on supported problem pages.
+- Detects accepted submissions on supported problem pages and Codeforces contest submission pages.
 - Saves the submitted source code to the corresponding GitHub repository.
 - Creates a numbered source file in a folder named for the problem.
 - Avoids saving the same detected submission more than once.
