@@ -15,7 +15,7 @@ The extension runs locally in your browser. It does not use a remote server or s
 | Platform | Repository setting | Example path |
 | --- | --- | --- |
 | GeeksforGeeks | GeeksforGeeks repository | `Problem Title/1.cpp` |
-| LeetCode | LeetCode repository | `Problem Title/1.py` |
+| LeetCode | LeetCode repository | `1 - Problem Title/1.py` |
 | Codeforces | Codeforces repository | `1234A - Problem Title/1.cpp` |
 
 Subsequent accepted submissions for the same problem are saved as `2.cpp`, `3.cpp`, and so on. The file extension is selected from the detected programming language; unrecognized languages use `.txt`.

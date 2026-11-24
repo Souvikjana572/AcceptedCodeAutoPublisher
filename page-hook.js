@@ -51,10 +51,13 @@
       try {
         const r = await originalFetch("/graphql", {
           method: "POST", credentials: "include", headers: { "content-type": "application/json" },
-          body: JSON.stringify({ query: "query($s: String!) { question(titleSlug: $s) { title } }", variables: { s: slug } })
+          body: JSON.stringify({ query: "query($s: String!) { question(titleSlug: $s) { title questionFrontendId } }", variables: { s: slug } })
         });
         const j = await r.json();
-        return clean(j.data?.question?.title) || clean(document.querySelector("h1")?.textContent) || slug;
+        const question = j.data?.question;
+        const title = clean(question?.title) || clean(document.querySelector("h1")?.textContent) || slug;
+        const questionNumber = clean(question?.questionFrontendId);
+        return questionNumber ? `${questionNumber} - ${title}` : title;
       } catch (_) { return clean(document.querySelector("h1")?.textContent) || slug; }
     }
   }
@@ -75,7 +78,9 @@
         const code = form.get?.("userCode");
         if (code && (!requestType || requestType === "solutionCheck")) {
           const slug = location.pathname.match(/\/problems\/([^/]+)/)?.[1];
-          pending = { id: `gfg-${Date.now()}-${++seq}`, slug, code, language: form.get("language") || "txt", title: clean(document.querySelector("h1")?.textContent) || clean(document.title.replace(/\s*[-|].*$/, "")) || slug, url: location.href };
+          const pageTitle = clean(document.title.split("|")[0]);
+          const slugTitle = clean(slug?.replace(/\d{3,}$/, "").replace(/-+$/, "").replace(/-/g, " "));
+          pending = { id: `gfg-${Date.now()}-${++seq}`, slug, code, language: form.get("language") || "txt", title: pageTitle || slugTitle || slug, url: location.href };
         }
       }
       if (method === "POST" && /\/api\/latest\/problems\/submission\/submit\/result\//.test(url) && pending) {
